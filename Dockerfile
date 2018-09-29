@@ -1,16 +1,19 @@
-#OS
-FROM ubuntu:latest
+# OS
+#FROM ubuntu:latest
+FROM ubuntu:xenial
 LABEL maintainer="Sergio Martin Santana <sergio.ms.91@gmail.com>"
 WORKDIR /install
 
-#1.Base Apps
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 1.Base Apps
 COPY /install/base.sh .
 RUN echo "---------------------------------------" && \
     echo "Installing Base Apps in data science stack" && \
     echo "---------------------------------------" && \
     bash base.sh
 
-#2.Python
+# 2.Python
 COPY /install/python.sh .
 RUN echo "---------------------------------------" && \
     echo "Installing Python in data science stack" && \
@@ -19,7 +22,7 @@ RUN echo "---------------------------------------" && \
 COPY install/custom_python.sh .
 COPY install/PyLibraries.sh .
 
-#4.R
+# 3.R
 COPY install/R.sh .
 RUN echo "---------------------------------------" && \
     echo "Installing R in data science stack" && \
@@ -27,14 +30,14 @@ RUN echo "---------------------------------------" && \
     bash R.sh
 COPY install/Rconfig.R .
 
-#5.RStudio
+# 4.RStudio
 COPY install/RStudio.sh .
 RUN echo "---------------------------------------" && \
     echo "Installing Rstudio in data science stack" && \
     echo "---------------------------------------" && \
     bash RStudio.sh
 
-#4. Spark
+# 5. Spark
 COPY install/spark.sh .
 RUN echo "---------------------------------------" && \
     echo "Installing Spark in data science stack" && \
@@ -42,19 +45,19 @@ RUN echo "---------------------------------------" && \
     bash spark.sh
 COPY install/SparkConf.sh /install/SparkConf.sh
 
-#3.Jupyter
+# 6.Jupyter
 COPY install/jupyter_notebook_config.py /root/.jupyter/jupyter_notebook_config.py
 COPY install/jupyter.sh .
 RUN echo "---------------------------------------" && \
     echo "Installing Jupyter in data science stack" && \
     echo "---------------------------------------" && \bash jupyter.sh
 
-#X. Finishing instalation and additional configuration of data science applications
-#Jupyter
+# X. Finishing installation and additional configuration of data science applications
+# Jupyter
 EXPOSE 8888
-#Spark
+# Spark
 EXPOSE 8080 8081 7077
-#RStudio
+# RStudio
 EXPOSE 8787
 
 COPY install/start.sh /install/start.sh

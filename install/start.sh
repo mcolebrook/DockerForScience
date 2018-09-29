@@ -11,6 +11,7 @@ then
   . /install/PyLibraries.sh
   . /install/custom_python.sh
   chmod -R 777 /notebooks/PyLibraries
+  umask 0000
   /etc/init.d/rstudio-server restart
   . /install/SparkConf.sh
   exec jupyter notebook --no-browser --allow-root &> /dev/null &
